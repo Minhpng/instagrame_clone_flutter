@@ -1,5 +1,9 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -23,65 +27,72 @@ class MyApp extends StatelessWidget {
   }
 }
 
-extension OptionalFixNullNumber<T extends num> on T? {
-  T? operator +(T? other) {
-    final shadow = this;
-    if (shadow != null) {
-      return shadow + (other ?? 0) as T;
-    } else {
-      return null;
+@immutable
+class Person {
+  final String name;
+  final int age;
+  final String uuid;
+
+  Person({required this.name, required this.age, String? uuid})
+      : uuid = uuid ?? const Uuid().v4();
+
+  Person updated({String? name, int? age}) {
+    return Person(name: name ?? this.name, age: age ?? this.age, uuid: uuid);
+  }
+
+  String get displayName => '$name ($age years old)';
+
+  @override
+  bool operator ==(covariant Person other) => uuid == other.uuid;
+
+  @override
+  int get hashCode => uuid.hashCode;
+
+  @override
+  String toString() => 'Person(name: $name, age: $age, uuid: $uuid)';
+}
+
+class DataModel extends ChangeNotifier {
+  final List<Person> _people = [];
+
+  int get count => _people.length;
+
+  UnmodifiableListView<Person> get people => UnmodifiableListView(_people);
+
+  void add(Person person) {
+    _people.add(person);
+    notifyListeners();
+  }
+
+  void remove(Person person) {
+    _people.remove(person);
+    notifyListeners();
+  }
+
+  void update(Person updatedPerson) {
+    final index = _people.indexOf(updatedPerson);
+    final oldPerson = _people[index];
+    if (updatedPerson.name != oldPerson.name ||
+        updatedPerson.age != oldPerson.age) {
+      _people[index] =
+          oldPerson.updated(name: updatedPerson.name, age: oldPerson.age);
     }
+    notifyListeners();
   }
 }
 
-class Counter extends StateNotifier<int?> {
-  Counter() : super(null);
-
-  void increment() {
-    state = state == null ? 1 : state + 1;
-  }
-
-  void resetCounter() {
-    state = null;
-  }
-
-  // int? get value => state;
-}
-
-final counterProvider =
-    StateNotifierProvider<Counter, int?>((ref) => Counter());
+final peopleProvider = ChangeNotifierProvider((ref) => DataModel());
 
 class MyHomePage extends ConsumerWidget {
   const MyHomePage({super.key});
-
-  Consumer showCount() {
-    return Consumer(builder: (context, ref, child) {
-      final count = ref.watch(counterProvider);
-      final text = count ?? 'Press add button';
-      return Text(text.toString());
-    });
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: showCount(),
-        actions: [
-          IconButton(
-              onPressed: ref.read(counterProvider.notifier).resetCounter,
-              icon: const Icon(Icons.restart_alt))
-        ],
+        title: const Text('Stream Provider'),
       ),
-      body: Center(
-        child: Container(
-          child: showCount(),
-        ),
-      ),
-      floatingActionButton: IconButton(
-        onPressed: ref.read(counterProvider.notifier).increment,
-        icon: Icon(Icons.add),
-      ),
+      body: Container(),
     );
   }
 }
