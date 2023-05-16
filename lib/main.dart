@@ -75,7 +75,7 @@ class DataModel extends ChangeNotifier {
     if (updatedPerson.name != oldPerson.name ||
         updatedPerson.age != oldPerson.age) {
       _people[index] =
-          oldPerson.updated(name: updatedPerson.name, age: oldPerson.age);
+          oldPerson.updated(name: updatedPerson.name, age: updatedPerson.age);
     }
     notifyListeners();
   }
@@ -90,9 +90,101 @@ class MyHomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Stream Provider'),
+        title: const Text('Home Page'),
       ),
-      body: Container(),
+      body: Consumer(
+        builder: (context, ref, _) {
+          final dataModel = ref.watch(peopleProvider);
+          return ListView.builder(
+            itemCount: dataModel.count,
+            itemBuilder: (context, index) {
+              final existingPerson = dataModel.people[index];
+              return GestureDetector(
+                onTap: () async {
+                  final updatedPerson =
+                      await createOrUpatePerson(context, existingPerson);
+                  if (updatedPerson != null) {
+                    dataModel.update(updatedPerson);
+                  }
+                },
+                child: ListTile(
+                  title: Text(existingPerson.displayName),
+                ),
+              );
+            },
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final newPerson = await createOrUpatePerson(context);
+          if (newPerson != null) ref.read(peopleProvider).add(newPerson);
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
+}
+
+final nameController = TextEditingController();
+final ageController = TextEditingController();
+
+Future<Person?> createOrUpatePerson(BuildContext context,
+    [Person? existingPerson]) {
+  String? name = existingPerson?.name;
+  int? age = existingPerson?.age;
+
+  nameController.text = name ?? '';
+  ageController.text = age != null ? age.toString() : '';
+
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Create a person'),
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nameController,
+                onChanged: (value) => name = value,
+                decoration: const InputDecoration(labelText: 'Enter name here...'),
+              ),
+              TextField(
+                controller: ageController,
+                decoration: const InputDecoration(labelText: 'Enter age here...'),
+                onChanged: (value) {
+                  age = int.tryParse(value);
+                },
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                if (name != null && age != null) {
+                  if (existingPerson != null) {
+                    final updatedPerson =
+                        existingPerson.updated(name: name, age: age);
+                    Navigator.of(context).pop(updatedPerson);
+                  } else {
+                    final newPerson = Person(name: name!, age: age!);
+                    Navigator.of(context).pop(newPerson);
+                  }
+                } else {
+                  Navigator.of(context).pop();
+                }
+              },
+              child: const Text('Save'),
+            ),
+          ],
+        );
+      });
 }
