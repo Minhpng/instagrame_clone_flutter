@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:instagram_clone_flutter/state/auth/backend/authenticator.dart';
 import 'firebase_options.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -46,7 +47,16 @@ class MyHomePage extends ConsumerWidget {
           'Home Page',
         ),
       ),
-      body: Container(),
+      body: Column(
+        children: [
+          TextButton(
+              onPressed: () async {
+                final result = await Authenticator().loginWithGoogle();
+                print(result);
+              },
+              child: Text('test'))
+        ],
+      ),
     );
   }
 }
