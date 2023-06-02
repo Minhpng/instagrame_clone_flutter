@@ -14,7 +14,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "798463010774-m2p654q61eiqkdttolfgs8tdvnhgi8ov.apps.googleusercontent.com",
+          "client_id": "798463010774-lun4809c6f1slutc757e8415ivs54vd2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,8 +27,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "798463010774-m2p654q61eiqkdttolfgs8tdvnhgi8ov.apps.googleusercontent.com",
+              "client_id": "798463010774-lun4809c6f1slutc757e8415ivs54vd2.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "798463010774-l92n498umsb1brch395kvo13kihds3nj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.instagramCloneFlutter"
+              }
             }
           ]
         }

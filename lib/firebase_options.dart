@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,10 +25,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -49,6 +43,15 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyD9RmMOa7-iLqDE_uO1MM3wfZtuu9bB8P4',
+    appId: '1:798463010774:web:811c1f94c9649696d7a677',
+    messagingSenderId: '798463010774',
+    projectId: 'instagram-clone-minh-18052023',
+    authDomain: 'instagram-clone-minh-18052023.firebaseapp.com',
+    storageBucket: 'instagram-clone-minh-18052023.appspot.com',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCrslfxgZiLDNb4Q1_MU7upsTaMrFfPnYk',
     appId: '1:798463010774:android:adacca6c6c2297bfd7a677',
@@ -58,6 +61,16 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyDh_x9OAA2TB3D-xIQrsAY9sMrpqpg8QJI',
+    appId: '1:798463010774:ios:049c0d2a70a9c5abd7a677',
+    messagingSenderId: '798463010774',
+    projectId: 'instagram-clone-minh-18052023',
+    storageBucket: 'instagram-clone-minh-18052023.appspot.com',
+    iosClientId: '798463010774-l92n498umsb1brch395kvo13kihds3nj.apps.googleusercontent.com',
+    iosBundleId: 'com.example.instagramCloneFlutter',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyDh_x9OAA2TB3D-xIQrsAY9sMrpqpg8QJI',
     appId: '1:798463010774:ios:049c0d2a70a9c5abd7a677',
     messagingSenderId: '798463010774',

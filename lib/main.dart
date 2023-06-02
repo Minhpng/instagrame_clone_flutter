@@ -5,11 +5,11 @@ import 'firebase_options.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  runApp(const ProviderScope(child: MyApp()));
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
