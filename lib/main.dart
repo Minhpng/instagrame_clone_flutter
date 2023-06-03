@@ -51,7 +51,7 @@ class MyHomePage extends ConsumerWidget {
         children: [
           TextButton(
               onPressed: () async {
-                final result = await Authenticator().loginWithGoogle();
+                final result = await Authenticator().loginWithFacebook();
                 print(result);
               },
               child: Text('test'))
