@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:instagram_clone_flutter/state/auth/backend/authenticator.dart';
+import 'package:instagram_clone_flutter/state/auth/providers/auth_state_provider.dart';
 import 'firebase_options.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'state/auth/providers/is_logged_in_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,13 +32,18 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: const MyHomePage(),
+      home: Consumer(
+        builder: (context, ref, child) {
+          final isLoggedIn = ref.watch(isLoggedInProvider);
+          return isLoggedIn ? const MainView() : const LoginView();
+        },
+      ),
     );
   }
 }
 
-class MyHomePage extends ConsumerWidget {
-  const MyHomePage({super.key});
+class MainView extends ConsumerWidget {
+  const MainView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -47,14 +54,36 @@ class MyHomePage extends ConsumerWidget {
           'Home Page',
         ),
       ),
+      body: TextButton(
+        onPressed: ref.read(authStateProvider.notifier).logOut,
+        child: const Text('Logout'),
+      ),
+    );
+  }
+}
+
+class LoginView extends ConsumerWidget {
+  const LoginView({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Login View'),
+        centerTitle: true,
+      ),
       body: Column(
         children: [
           TextButton(
-              onPressed: () async {
-                final result = await Authenticator().loginWithFacebook();
-                print(result);
-              },
-              child: Text('test'))
+            onPressed: ref.read(authStateProvider.notifier).loginWithGoogle,
+            child: const Text('Log in with Google'),
+          ),
+          TextButton(
+            onPressed: ref.read(authStateProvider.notifier).loginWithFacebook,
+            child: const Text('Log in with Facebook'),
+          ),
         ],
       ),
     );

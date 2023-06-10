@@ -52,15 +52,13 @@ class Authenticator {
   Future<AuthResult> loginWithGoogle() async {
     final GoogleSignIn googleSignIn =
         GoogleSignIn(scopes: [Constants.emailScope]);
-
     final signAccount = await googleSignIn.signIn();
     if (signAccount == null) return AuthResult.aborted;
-
-    print('aborted');
 
     final googleAuth = await signAccount.authentication;
     final oauthCredential = GoogleAuthProvider.credential(
         idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
+
     try {
       await FirebaseAuth.instance.signInWithCredential(oauthCredential);
       return AuthResult.success;
