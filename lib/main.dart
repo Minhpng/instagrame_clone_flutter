@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:instagram_clone_flutter/state/auth/providers/auth_state_provider.dart';
+import 'package:instagram_clone_flutter/state/providers/is_loading_provider.dart';
+import 'package:instagram_clone_flutter/views/components/loading/loading_screen.dart';
 import 'firebase_options.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -34,7 +38,16 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Consumer(
         builder: (context, ref, child) {
+          ref.listen<bool>(isLoadingProvider, (_, isLoading) {
+            if (isLoading) {
+              LoadingScreen.instance()
+                  .show(context: context, text: 'Loading...');
+            } else {
+              LoadingScreen.instance().hide();
+            }
+          });
           final isLoggedIn = ref.watch(isLoggedInProvider);
+
           return isLoggedIn ? const MainView() : const LoginView();
         },
       ),
@@ -55,7 +68,13 @@ class MainView extends ConsumerWidget {
         ),
       ),
       body: TextButton(
-        onPressed: ref.read(authStateProvider.notifier).logOut,
+        onPressed: () async {
+          final isLoading = ref.watch(authStateProvider).isLoading;
+          isLoading
+              ? LoadingScreen.instance().show(context: context, text: 'hello')
+              : LoadingScreen.instance().hide();
+          await ref.read(authStateProvider.notifier).logOut();
+        },
         child: const Text('Logout'),
       ),
     );
