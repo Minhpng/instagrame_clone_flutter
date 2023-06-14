@@ -20,7 +20,11 @@ class AuthState {
         isLoading = false,
         userId = null;
   AuthState copiedWithIsLoading(bool isLoading) {
-    return AuthState(result: result, isLoading: isLoading, userId: userId);
+    return AuthState(
+      result: result,
+      isLoading: isLoading,
+      userId: userId,
+    );
   }
 
   @override

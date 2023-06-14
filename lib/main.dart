@@ -9,6 +9,7 @@ import 'firebase_options.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'state/auth/providers/is_logged_in_provider.dart';
+import 'views/login/login_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -76,34 +77,6 @@ class MainView extends ConsumerWidget {
           await ref.read(authStateProvider.notifier).logOut();
         },
         child: const Text('Logout'),
-      ),
-    );
-  }
-}
-
-class LoginView extends ConsumerWidget {
-  const LoginView({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login View'),
-        centerTitle: true,
-      ),
-      body: Column(
-        children: [
-          TextButton(
-            onPressed: ref.read(authStateProvider.notifier).loginWithGoogle,
-            child: const Text('Log in with Google'),
-          ),
-          TextButton(
-            onPressed: ref.read(authStateProvider.notifier).loginWithFacebook,
-            child: const Text('Log in with Facebook'),
-          ),
-        ],
       ),
     );
   }
