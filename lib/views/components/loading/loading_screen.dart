@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:instagram_clone_flutter/views/components/animations/loading_animation_view.dart';
 
 import '../constants/strings.dart';
 import 'loading_screen_controller.dart';

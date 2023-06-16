@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:instagram_clone_flutter/state/auth/providers/auth_state_provider.dart';
 import 'package:instagram_clone_flutter/state/providers/is_loading_provider.dart';
+import 'package:instagram_clone_flutter/views/components/animations/data_not_found_animation_view.dart';
+import 'package:instagram_clone_flutter/views/components/animations/empty_contents_with_text_animation_view%20copy.dart';
 import 'package:instagram_clone_flutter/views/components/loading/loading_screen.dart';
 import 'firebase_options.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -67,16 +69,19 @@ class MainView extends ConsumerWidget {
         title: const Text(
           'Home Page',
         ),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              await ref.read(authStateProvider.notifier).logOut();
+            },
+            child: const Text('Logout'),
+          ),
+        ],
       ),
-      body: TextButton(
-        onPressed: () async {
-          final isLoading = ref.watch(authStateProvider).isLoading;
-          isLoading
-              ? LoadingScreen.instance().show(context: context, text: 'hello')
-              : LoadingScreen.instance().hide();
-          await ref.read(authStateProvider.notifier).logOut();
-        },
-        child: const Text('Logout'),
+      body: const Center(
+        child: EmptyContentsWithTextAnimationView(
+          text: 'test empty contents',
+        ),
       ),
     );
   }
