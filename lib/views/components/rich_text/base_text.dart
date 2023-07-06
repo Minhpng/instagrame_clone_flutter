@@ -2,7 +2,6 @@ import 'package:flutter/material.dart'
     show Colors, TextDecoration, TextStyle, VoidCallback, immutable;
 import 'package:instagram_clone_flutter/views/components/rich_text/link_text.dart';
 
-import 'link_text.dart';
 
 @immutable
 class BaseText {

@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart' show VoidCallback, immutable;
-import 'package:flutter/material.dart' show TextStyle;
 
 import 'base_text.dart';
 
