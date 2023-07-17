@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:instagram_clone_flutter/state/auth/providers/auth_state_provider.dart';
 import 'package:instagram_clone_flutter/state/providers/is_loading_provider.dart';
 import 'package:instagram_clone_flutter/views/components/loading/loading_screen.dart';
 import 'firebase_options.dart';

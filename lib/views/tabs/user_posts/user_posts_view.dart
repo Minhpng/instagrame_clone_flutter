@@ -17,13 +17,14 @@ class UserPostsView extends ConsumerWidget {
     final posts = ref.watch(userPostsProvider);
     return RefreshIndicator(
       onRefresh: () async {
-        Future.delayed(const Duration(seconds: 1));
-        return ref.refresh(userPostsProvider);
+        ref.refresh(userPostsProvider);
+        return Future.delayed(const Duration(seconds: 1));
       },
       child: posts.when(data: (posts) {
         if (posts.isEmpty) {
           return const EmptyContentsWithTextAnimationView(
-              text: Strings.youHaveNoPosts);
+            text: Strings.youHaveNoPosts,
+          );
         } else {
           return PostsGridView(posts: posts);
         }

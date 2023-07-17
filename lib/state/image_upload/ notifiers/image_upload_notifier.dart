@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -84,25 +85,29 @@ class ImageUploadNotifier extends StateNotifier<IsLoading> {
 
     try {
       // upload thumbnail
-      final thumbnailUploadTask =
-          await thumbnailRef.putData(thumbnailUint8List);
+      final thumbnailUploadTask = await thumbnailRef.putData(
+          thumbnailUint8List, SettableMetadata(contentType: 'image/png'));
       final thumbnailStorageId = thumbnailUploadTask.ref.name;
 
       // upload original file
       final originalFileUploadTask = await originalFileRef.putFile(file);
       final originalFileStorageId = originalFileUploadTask.ref.name;
+      print('uploaded file');
 
+      final thumbnailUrl = await thumbnailRef.getDownloadURL();
+      final fileUrl = await originalFileRef.getDownloadURL();
       final postPayLoad = PostPayload(
           userId: userId,
           message: message,
-          thumbnailUrl: await thumbnailRef.getDownloadURL(),
-          fileUrl: await originalFileRef.getDownloadURL(),
+          thumbnailUrl: thumbnailUrl,
+          fileUrl: fileUrl,
           fileType: fileType,
           fileName: fileName,
           aspectRatio: thumbnailAspectRatio,
           thumbnailStorageId: thumbnailStorageId,
           originalFileStorageId: originalFileStorageId,
           postSettings: postSettings);
+
       await FirebaseFirestore.instance
           .collection(FirebaseCollectionName.posts)
           .add(postPayLoad);

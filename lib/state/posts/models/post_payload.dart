@@ -24,6 +24,8 @@ class PostPayload extends MapView<String, dynamic> {
       : super({
           PostKey.userId: userId,
           PostKey.message: message,
+          PostKey.thumbnailUrl: thumbnailUrl,
+          PostKey.fileUrl: fileUrl,
           PostKey.createAt: FieldValue.serverTimestamp(),
           PostKey.fileType: fileType.name,
           PostKey.fileName: fileName,
@@ -32,7 +34,7 @@ class PostPayload extends MapView<String, dynamic> {
           PostKey.originalFileStorageId: originalFileStorageId,
           PostKey.postSettings: {
             for (final setting in postSettings.entries)
-              {setting.key.storageKey: setting.value}
+              setting.key.storageKey: setting.value
           }
         });
 }

@@ -20,11 +20,12 @@ class PostsGridView extends StatelessWidget {
           mainAxisSpacing: 10,
           crossAxisSpacing: 10,
         ),
+        itemCount: posts.length,
         itemBuilder: (_, index) {
           return PostThumbnailView(
               post: posts.elementAt(index),
               onTapped: () {
-                // TODO: handle navigate to post
+                //TODO: handle go to post detail view
               });
         });
   }

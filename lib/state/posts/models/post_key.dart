@@ -6,7 +6,7 @@ class PostKey {
 
   static const userId = 'uid';
   static const message = 'message';
-  static const createAt = 'creaet_at';
+  static const createAt = 'created_at';
   static const thumbnailUrl = 'thumbnail_url';
   static const fileUrl = 'file_url';
   static const fileType = 'file_type';

@@ -34,7 +34,7 @@ class Post {
         thumbnailStorageId = json[PostKey.thumbnailStorageId],
         originalFileStorageId = json[PostKey.originalFileStorageId],
         postSettings = {
-          for (var entry in json[PostKey.postSettings])
+          for (var entry in json[PostKey.postSettings].entries)
             PostSetting.values.firstWhere((e) => e.storageKey == entry.key):
                 entry.value
         };
