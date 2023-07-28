@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:instagram_clone_flutter/state/auth/providers/user_id_provider.dart';
 
 import '../../../state/posts/providers/user_posts_provider.dart';
+import '../../../state/user_info/providers/user_info_model_provider.dart';
 import '../../components/animations/empty_contents_with_text_animation_view.dart';
 import '../../components/animations/error_animation_view.dart';
 import '../../components/animations/loading_animation_view.dart';
@@ -15,6 +17,8 @@ class UserPostsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final posts = ref.watch(userPostsProvider);
+    final userId = ref.watch(userIdProvider);
+    final user = ref.watch(userInfoModelProvider(userId!));
     return RefreshIndicator(
       onRefresh: () async {
         ref.refresh(userPostsProvider);

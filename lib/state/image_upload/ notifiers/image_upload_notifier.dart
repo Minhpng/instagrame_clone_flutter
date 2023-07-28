@@ -92,7 +92,6 @@ class ImageUploadNotifier extends StateNotifier<IsLoading> {
       // upload original file
       final originalFileUploadTask = await originalFileRef.putFile(file);
       final originalFileStorageId = originalFileUploadTask.ref.name;
-      print('uploaded file');
 
       final thumbnailUrl = await thumbnailRef.getDownloadURL();
       final fileUrl = await originalFileRef.getDownloadURL();
