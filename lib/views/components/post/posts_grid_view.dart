@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:instagram_clone_flutter/views/components/post/post_thumbnail_view.dart';
-import 'package:instagram_clone_flutter/views/post_comments/post_comments_view.dart';
+import 'package:instagram_clone_flutter/views/post_detail/post_detail_view.dart';
 
 import '../../../state/posts/models/post.dart';
 
@@ -29,7 +29,7 @@ class PostsGridView extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (_) =>
-                        PostCommentsView(postId: posts.elementAt(index).postId),
+                        PostDetailView(post: posts.elementAt(index)),
                   ),
                 );
               });
