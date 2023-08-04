@@ -114,12 +114,13 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
                 ),
                 PostDisplayNameAndMessage(post: widget.post),
                 PostDateView(date: widget.post.createAt),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Divider(
-                    color: Colors.white70,
+                if (postWithComments.comments.isNotEmpty)
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Divider(
+                      color: Colors.white70,
+                    ),
                   ),
-                ),
                 CompactCommentColumn(
                   comments: postWithComments.comments,
                 ),

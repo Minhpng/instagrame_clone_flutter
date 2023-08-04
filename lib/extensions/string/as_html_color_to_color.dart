@@ -7,4 +7,4 @@ extension AsHtmlColorToColor on String {
       );
 }
 
-// Color('#000000') => Color (0xFF000000)
+// Color('#000000') => Color (7834792384)
